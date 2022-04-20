@@ -1,7 +1,7 @@
 ﻿using namespace std;
 #include <iostream>
 #include "функции.h"
-
+#define Omega 1.
 int main()
 {
     setlocale(LC_ALL, "Russian");
@@ -51,6 +51,7 @@ int main()
 
 
 	int n = 5;
+	double omega = 0.99;
 	double** mat = new double* [n];
 	double* res = new double[n];
 	double* b = new double[n];
@@ -85,14 +86,24 @@ int main()
 	res[2] = -2.5;//-3
 	res[3] = 5.5;//6
 	res[4] = -1.5;//-1
-	pvr(mat, b, n, res, 0.99);
+	pvr(mat, b, n, res, Omega);
 	for (int i = 0; i < n; i++)
 	{
 		cout << res[i] << endl;
 	}
-	 
-	 
-	 
+	/*double x=0.8;
+	int n=4;
+	double* X = new double [n];
+	double* Y = new double[n];
+	X[0] = 0.1;
+	X[1] = 0.5;
+	X[2] = 0.9;
+	X[3] = 1.3;
+	Y[0] = 0.1;
+	Y[1] = 0.5;
+	Y[2] = 1.1;
+	Y[3] = 1.3;
+	cout<<inter_laplas(X, Y, n, x);*/
 	 
 	 
 	//int n = 5;
