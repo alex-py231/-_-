@@ -22,3 +22,4 @@ void obr(double** arr, int n);
 void m_Seidel(double** mat, double* b, int n, double* res);
 void m_Jacobi(double** mat, double* b, int n, double* res);
 void pvr(double** mat, double* b, int n, double* res, double omega);
+void m_rot(double** mat1, int n, double** res);

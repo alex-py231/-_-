@@ -1,4 +1,20 @@
 #include "функции.h"
+double** traspose(double** mat, int n, int m)
+{
+	double** arr = new double * [n];
+	for (int i = 0; i < n; i++)
+	{
+		arr[i] = new double[m];
+	}
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			arr[i][j] = mat[j][i];
+		}
+	}
+	return arr;
+}
 double helpfunk(double** arr, int n, int a)
 {
 	for (int i = 0; i < n; i++)
@@ -550,7 +566,7 @@ double** pr_mat(double** a, double** b, int n, int m)
 	{
 		for (int j = 0; j < m; j++)
 		{
-			for (int k = 0; k < n; k++)
+			for (int k = 0; k < m; k++)
 			{
 				res[i][j] += a[i][k] * b[k][j];
 			}
@@ -988,5 +1004,78 @@ void pvr(double** mat, double* b, int n, double* res, double omega)
 		{
 			res1[i] = res[i];
 		}
+		
 	} while (dx > eps);
+}
+void m_rot(double** mat1, int n, double** res1)
+{
+	double** mat = new double* [n];
+	double** res = new double* [n];
+	double** H = new double* [n];
+	double eps = 0.0001;
+	for (int i = 0; i < n; i++)
+	{
+		mat[i] = new double[n];
+		H[i] = new double[n];
+		res[i] = new double[n];
+		for (int j = 0; j < n; j++)
+		{
+			mat[i][j] = mat1[i][j];
+			if (i == j)
+			{
+				res[i][j] = 1.;
+			}
+			else
+			{
+				res[i][j] = 0;
+			}
+		}
+	}
+	double max=1;
+	int i_max = 0, j_max = 0;
+	double phi;
+	while (max > eps) {
+		max = 0;
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = i + 1; j < n; j++)
+			{
+				if (max < abs(mat[i][j]))
+				{
+					max = abs(mat[i][j]);
+					i_max = i;
+					j_max = j;
+				}
+			}
+		}
+		phi = atan(2 * mat[i_max][j_max] / (mat[i_max][i_max] - mat[j_max][j_max])) / 2;
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				if (i == j)
+				{
+					H[i][j] = 1;
+				}
+				else
+				{
+					H[i][j] = 0;
+				}
+			}
+		}
+		H[i_max][i_max] = cos(phi);
+		H[i_max][j_max] = -sin(phi);
+		H[j_max][i_max] = sin(phi);
+		H[j_max][j_max] = cos(phi);
+		mat = pr_mat(traspose(H, n,n), mat, n,n);
+		mat = pr_mat(mat, H, n, n);
+		res = pr_mat(res, H, n, n);
+	}
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			res1[i][j] = res[i][j];
+		}
+	}
 }
