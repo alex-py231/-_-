@@ -1335,7 +1335,7 @@ void QR(double** mat, int n, double** Q, double** R)
 		cout << endl;
 	}*/
 }
-void m_QR(double** mat, int n,double*lambda,double**sob_vec)
+void m_QR(double** mat1, int n,double*lambda,double**sob_vec)
 {
 	double** R = new double* [n];
 	double** Q = new double* [n];
