@@ -574,6 +574,35 @@ double** pr_mat(double** a, double** b, int n, int m)
 	}
 	return res;
 }
+void pr_mat_2(double** a, double** b, int n, int m,double**res1)
+{
+	double** res = new double* [n];
+	for (int j = 0; j < n; j++)
+	{
+		res[j] = new double[m];
+		for (int i = 0; i < m; i++)
+		{
+			res[j][i] = 0;
+		}
+	}
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			for (int k = 0; k < m; k++)
+			{
+				res[i][j] += a[i][k] * b[k][j];
+			}
+		}
+	}
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			res1[i][j] = res[i][j];
+		}
+	}
+}
 bool LU_clay(double** mat, double* b, double* res, int n)// решение СЛАУ происходит так ,в начале матрица коэффициентов разлагается на верхнетреугольную и нижнетреугольную,а дальше вектор столбец b доможается на L-1,u-1
 {
 	double** L = new double* [n];
@@ -1006,8 +1035,53 @@ void pvr(double** mat, double* b, int n, double* res, double omega)
 		}
 		
 	} while (dx > eps);
+
+	/*int n = 4;
+	double omega;
+	cin>>omega;
+	double** mat = new double* [n];
+	double* res = new double[n];
+	double* b = new double[n];
+	for (int i = 0; i < n; i++)
+	{
+		mat[i] = new double[n];
+		for (int j = 0; j < n; j++)
+		{
+			mat[i][j] = 0;
+		}
+	}
+	mat[0][0] = 24;
+	mat[0][1] = 9;
+	mat[0][2] = -1;
+	mat[0][3] = -5;
+	mat[1][0] = -1;
+	mat[1][1] = -14;
+	mat[1][2] = 1;
+	mat[1][3] = 9;
+	mat[2][0] = -7;
+	mat[2][1] = 5;
+	mat[2][2] = -21;
+	mat[3][0] = 1;
+	mat[3][1] = 4;
+	mat[3][2] = 8;
+	mat[3][3] = -22;
+	b[0] = -24;
+	b[1] = 40;
+	b[2] = -84;
+	b[3] = -56;
+	res[0] = 6.5;
+	res[1] = -7;
+	res[2] = -2.5;
+	res[3] = 5.5;
+	pvr(mat, b, n, res, Omega);
+	for (int i = 0; i < n; i++)
+	{
+		cout << res[i] << endl;
+	}
+	*/
+	// 
 }
-void m_rot(double** mat1, int n, double** res1)
+void m_rot(double** mat1, int n, double** res1,double* lambda)
 {
 	double** mat = new double* [n];
 	double** res = new double* [n];
@@ -1077,5 +1151,219 @@ void m_rot(double** mat1, int n, double** res1)
 		{
 			res1[i][j] = res[i][j];
 		}
+		lambda[i] = mat[i][i];
+	}
+	//int n;
+	//n = 3;
+	//double** mat = new double* [n];
+	//double** res = new double* [n];
+	//double* lambda = new double[n];
+	//for (int i = 0; i < n; i++)
+	//{
+	//	mat[i] = new double[n];
+	//	res[i] = new double[n];
+	//}
+	//mat[0][0] = -4;
+	//mat[0][1] = 1;
+	//mat[0][2] = 7;
+	//mat[1][0] = 1;
+	//mat[1][1] = 8;
+	//mat[1][2] = -5;
+	//mat[2][0] = 7;
+	//mat[2][1] = -5;
+	//mat[2][2] = 1;
+	//m_rot(mat, n, res, lambda);
+	//for (int i = 0; i < n; i++)
+	//{
+	//	for (int j = 0; j < n; j++)
+	//	{
+	//		cout << res[j][i] << "   ";
+	//	}
+	//	cout << lambda[i];
+	//	cout << endl;
+	//}
+}
+double S_pr(double(*f)(double), double a, double b,double h)
+{
+	int n = (b - a) / h;
+	double sum = 0;
+	for (double i = a ; i < b; i += h)
+	{
+		sum += f((2 * i + h) / 2) * h;
+	}
+	return sum;
+}
+double S_trap(double(*f)(double), double a, double b, double h)
+{
+	int n = (b - a) / h;
+	double sum = 0;
+	for (double i = a + h; i < b; i += h)
+	{
+		sum += (f(i - h) + f(i)) / 2 * h;
+	}
+	return sum;
+}
+double S_Simpson(double(*f)(double), double a, double b, double h)
+{
+	int n = (b - a) / h;
+	double sum = 0;
+	for (double i = a + h; i < b; i += h)
+	{
+		sum += (f(i - h) + 4 * f(((i - h) + i) / 2) + f(i)) / 6 * h;
+	}
+	return sum;
+}
+double scal_pr(double* A, double* B,int n)
+{
+	double res = 0;
+	for (int i = 0; i < n; i++)
+	{
+		res += A[i] * B[i];
+	}
+	return res;
+}
+void ort_gramm_shimidt(double** mat,double**res, int n)
+{
+	double* b = new double[n];
+	double** mat1 = new double* [n];
+	for (int i = 0; i < n; i++)
+	{
+		mat1[i] = new double[n];
+	}
+	double* c = new double [n];
+	double sum = 0;
+	double* m = new double[n];
+		for (int j = 0; j < n; j++)
+		{
+			for (int k = 0; k < n; k++)
+			{
+				b[k] = mat[k][j];
+			}
+			for (int k = 0; k < j; k++)
+			{
+				for (int i = 0; i < n; i++)
+				{
+					m[i] = mat1[i][k];
+				}
+				c[k] = scal_pr(b, m, n) / scal_pr(m, m, n);
+			}
+			for (int k = 0; k < n; k++)
+			{
+				sum = 0;
+				for (int m = 0; m < j; m++)
+				{
+					sum += c[m] * mat1[k][m];
+				}
+				b[k] -= sum;
+				sum = 0;
+			}
+			for (int k = 0; k < n; k++)
+			{
+				mat1[k][j] = b[k];
+			}
+		}
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				res[i][j] = mat1[i][j];
+			}
+		}
+}
+void norm(double** mat, double** res, int n)
+{
+	double* b = new double[n];
+	double mod = 0;
+	for (int i = 0; i < n; i++)
+	{
+		mod = 0;
+		for (int j = 0; j < n; j++)
+		{
+			b[j] = mat[j][i];
+		}
+		for (int j = 0; j < n; j++)
+		{
+			mod += b[j] * b[j];
+		}
+		mod = sqrt(mod);
+		for (int j = 0; j < n; j++)
+		{
+			b[j] /= mod;
+		}
+		for (int j = 0; j < n; j++)
+		{
+			res[j][i] = b[j];
+		}
+	}
+}
+void QR(double** mat, int n, double** Q, double** R)
+{
+	ort_gramm_shimidt(mat, Q, n);
+	norm(Q, Q, n);
+	pr_mat_2(traspose(Q, n, n), mat, n, n, R);
+	/*int n;
+	cin >> n;
+	double** mat = new double* [n];
+	double** Q = new double* [n];
+	double** R = new double* [n];
+	for (int i = 0; i < n; i++)
+	{
+		mat[i] = new double[n];
+		Q[i] = new double[n];
+		R[i] = new double[n];
+		for (int j = 0; j < n; j++)
+		{
+			cin >> mat[i][j];
+		}
+	}
+	QR(mat, n, Q, R);
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cout << Q[i][j] << "   ";
+		}
+		cout << endl;
+	}
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cout << R[i][j] << "   ";
+		}
+		cout << endl;
+	}*/
+}
+void m_QR(double** mat, int n,double*lambda,double**sob_vec)
+{
+	double** R = new double* [n];
+	double** Q = new double* [n];
+	for (int i = 0; i < n; i++)
+	{
+		R[i] = new double[n];
+		Q[i] = new double[n];
+		for (int j = 0; j < n; j++)
+		{
+			if (i != j)
+			{
+				sob_vec[i][j] = 0;
+			}
+			else
+			{
+				sob_vec[i][j] = 1;
+			}
+		}
+	}
+	for (int i = 0; i < 1000; i++)
+	{
+		QR(mat, n, Q, R);
+		pr_mat_2(traspose(Q, n, n), mat, n, n, mat);
+		pr_mat_2(mat, Q, n, n, mat);
+		pr_mat_2(sob_vec, Q, n, n, sob_vec);
+	}
+	for (int i = 0; i < n; i++)
+	{
+		lambda[i] = mat[i][i];
 	}
 }
