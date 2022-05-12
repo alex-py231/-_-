@@ -28,3 +28,6 @@ double S_Simpson(double(*f)(double), double a, double b, double h);
 double S_pr(double(*f)(double), double a, double b, double h);
 void m_QR(double** mat, int n, double* lambda, double** sob_vec);
 void QR(double** mat, int n, double** Q, double** R);
+double Romberg(double(*f)(double), double a, double b);
+double min_lambda(double** mat, int n);
+double max_lambda(double** mat, int n);

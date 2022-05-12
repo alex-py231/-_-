@@ -1335,7 +1335,7 @@ void QR(double** mat, int n, double** Q, double** R)
 		cout << endl;
 	}*/
 }
-void m_QR(double** mat1, int n,double*lambda,double**sob_vec)
+void m_QR(double** mat, int n,double*lambda,double**sob_vec)
 {
 	double** R = new double* [n];
 	double** Q = new double* [n];
@@ -1366,4 +1366,78 @@ void m_QR(double** mat1, int n,double*lambda,double**sob_vec)
 	{
 		lambda[i] = mat[i][i];
 	}
+}
+double R(int n, int m, double(*f)(double),double a,double b)
+{
+	double sum = 0;
+	double h;
+	if (n == 0 && m == 0)
+	{
+		return (b - a) / 2;
+	}
+	else if (m == 0 && n != 0)
+	{
+		h = (b - a) / pow(2, n);
+		for (int i = 1; i < pow(2, n - 1); i++)
+		{
+			sum += f(a + (2 * i - 1) * h);
+		}
+		return R(n - 1, 0, f, a, b) / 2 + sum * h;
+	}
+	else
+	{
+		return 1 / (pow(4, m) - 1) * (pow(4, m) * R(n, m - 1, f, a, b) - R(n - 1, m - 1, f, a, b));
+	}
+}
+double Romberg(double(*f)(double), double a, double b)
+{
+	double eps = 0.000001;
+	double d ,res1;
+	double res= R(0, 0, f, a, b);
+	int i = 1;
+	do {
+		res1 = res;
+		res = R(i, 0, f, a, b);
+		d = res - res1;
+		i++;
+	} while (abs(d) > eps);
+	return res;
+}
+double max_lambda(double** mat, int n)
+{
+	double** res = new double*[n];
+	for (int i = 0; i < n; i++)
+	{
+		res[i] = new double[n];
+	}
+	double* lambda = new double[n];
+	m_rot(mat, n, res, lambda);
+	double max = lambda[0];
+	for (int i = 0; i < n; i++)
+	{
+		if (max < lambda[i])
+		{
+			max = lambda[i];
+		}
+	}
+	return max;
+}
+double min_lambda(double** mat, int n)
+{
+	double** res = new double* [n];
+	for (int i = 0; i < n; i++)
+	{
+		res[i] = new double[n];
+	}
+	double* lambda = new double[n];
+	m_rot(mat, n, res, lambda);
+	double max = lambda[0];
+	for (int i = 0; i < n; i++)
+	{
+		if (max > lambda[i])
+		{
+			max = lambda[i];
+		}
+	}
+	return max;
 }
