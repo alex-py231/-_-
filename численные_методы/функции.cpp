@@ -1421,6 +1421,22 @@ double max_lambda(double** mat, int n)
 		}
 	}
 	return max;
+	////int n=3;
+	////double** mat = new double* [n];
+	////for (int i = 0; i < n; i++)
+	////{
+	////	mat[i] = new double[n];
+	////}
+	////mat[0][0] = -4;
+	////mat[0][1] = 1;
+	////mat[0][2] = 7;
+	////mat[1][0] = 1;
+	////mat[1][1] = 8;
+	////mat[1][2] = -5;
+	////mat[2][0] = 7;
+	////mat[2][1] = -5;
+	////mat[2][2] = 1;
+	////cout<<max_lambda(mat, n);
 }
 double min_lambda(double** mat, int n)
 {
