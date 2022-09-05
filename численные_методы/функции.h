@@ -2,7 +2,7 @@
 #include<iostream>
 #include<cmath>
 using namespace std;
-typedef double (*f)(double*X);
+//typedef double (*f)(double*X);
 double inter_Newton(double* X, double* Y, int n, double x);
 double inter_laplas(double* X, double* Y, int n, double x);
 double error_rate(double Y, double y);
@@ -15,8 +15,8 @@ double m_hord(double (*f)(double), double a, double b);
 bool LU(double** mat, int n, int m, double** L, double** U);
 double** pr_mat(double** a, double** b, int n, int m);
 bool LU_clay(double** mat, double* b, double* res, int n);
-void pr_it_sis(f* f_, int n, double* res);
-void newton_sis(f* f_, f** df, int n, double* res);
+//void pr_it_sis(f* f_, int n, double* res);
+//void newton_sis(f* f_, f** df, int n, double* res);
 void gayss(double** arr, int n, int m);
 void obr(double** arr, int n);
 void m_Seidel(double** mat, double* b, int n, double* res);

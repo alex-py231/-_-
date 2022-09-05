@@ -683,135 +683,135 @@ bool LU_clay(double** mat, double* b, double* res, int n)// решение —Ћј” происхо
 	}
 	delete[]mat;*/
 }
-void pr_it_sis(f* f_, int n, double* res)//res- начальное приблежение,в нЄм вернЄтс€ и результат, *f_ - массив функций
-{// по пон€тным причинам n -  размер массива
-	double eps = 0.0001;
-	double* res1 = new double[n];
-	double sum = 0;
-	double dx;
-	do {
-		dx = 0.00001;
-		for (int i = 0; i < n; i++)
-		{
-			res1[i] = f_[i](res);
-		}
-		for (int i = 0; i < n; i++)
-		{
-			dx = (abs((res[i] - res1[i])) > dx) ? abs(res[i] - res1[i]) : dx;
-		}
-		for (int i = 0; i < n; i++)
-		{
-			res[i] = res1[i];
-		}
-	} while (dx > eps );
-	delete[]res1;
-	//double f1(double* x)
-		//{
-		//    return sqrt(2 * x[0] * x[0] - x[0] - 1);
-		//}
-		//double f2(double *x)
-		//{
-		//    return atan(x[1]);
-		//}
-		/* f* f_ = new f[n];
-	f_[0] = f1;
-	f_[1] = f2;
-	double* res = new double[n];
-	res[0] = 0.6;
-	res[1] = 0.6;
-	pr_it_sis(f_, n, res);
-	for (int i = 0; i < n; i++)
-	{
-		cout << res[i] << "   ";
-	}*/
-}
-void newton_sis(f* f_, f** df, int n, double* res)// по параметрам,та же истори€,что и в прошлый раз
-{// df двумерный массив дифференцированных функций,фактически матрица якоби
-	double** mat = new double* [n];
-	double eps = 0.0001;
-	double xmax;
-	double *dx = new double[n];
-	for (int i = 0; i < n; i++)
-	{
-		mat[i] = new double[n+1];
-	}
-	do {
-		xmax = 0.00001;
-		for (int i = 0; i < n; i++)
-		{
-			for (int j = 0; j < n; j++)
-			{
-				mat[i][j] = df[i][j](res);
-			}
-			mat[i][n] = -(f_[i](res));
-		}
-		gayss(mat, n, n + 1);
-		for (int i = 0; i < n; i++)
-		{
-			dx[i] = mat[i][n];
-		}
-		for (int i = 0; i < n; i++)
-		{
-			res[i] += dx[i];
-		}
-		for (int i = 0; i < n; i++)
-		{
-			xmax = (fabs(dx[i]) > xmax) ? fabs(dx[i]) : xmax;
-		}
-	} while (fabs(xmax) > eps);
-	//
-//double f1(double* x)
-//{
-//    return x[0] * x[0] + 2 * log10(x[1]) - 1;
+//void pr_it_sis(f* f_, int n, double* res)//res- начальное приблежение,в нЄм вернЄтс€ и результат, *f_ - массив функций
+//{// по пон€тным причинам n -  размер массива
+//	double eps = 0.0001;
+//	double* res1 = new double[n];
+//	double sum = 0;
+//	double dx;
+//	do {
+//		dx = 0.00001;
+//		for (int i = 0; i < n; i++)
+//		{
+//			res1[i] = f_[i](res);
+//		}
+//		for (int i = 0; i < n; i++)
+//		{
+//			dx = (abs((res[i] - res1[i])) > dx) ? abs(res[i] - res1[i]) : dx;
+//		}
+//		for (int i = 0; i < n; i++)
+//		{
+//			res[i] = res1[i];
+//		}
+//	} while (dx > eps );
+//	delete[]res1;
+//	//double f1(double* x)
+//		//{
+//		//    return sqrt(2 * x[0] * x[0] - x[0] - 1);
+//		//}
+//		//double f2(double *x)
+//		//{
+//		//    return atan(x[1]);
+//		//}
+//		/* f* f_ = new f[n];
+//	f_[0] = f1;
+//	f_[1] = f2;
+//	double* res = new double[n];
+//	res[0] = 0.6;
+//	res[1] = 0.6;
+//	pr_it_sis(f_, n, res);
+//	for (int i = 0; i < n; i++)
+//	{
+//		cout << res[i] << "   ";
+//	}*/
 //}
-//double f2(double *x)
-//{
-//    return x[0] * x[0] - 3 * x[0] * x[1] + 3;
+//void newton_sis(f* f_, f** df, int n, double* res)// по параметрам,та же истори€,что и в прошлый раз
+//{// df двумерный массив дифференцированных функций,фактически матрица якоби
+//	double** mat = new double* [n];
+//	double eps = 0.0001;
+//	double xmax;
+//	double *dx = new double[n];
+//	for (int i = 0; i < n; i++)
+//	{
+//		mat[i] = new double[n+1];
+//	}
+//	do {
+//		xmax = 0.00001;
+//		for (int i = 0; i < n; i++)
+//		{
+//			for (int j = 0; j < n; j++)
+//			{
+//				mat[i][j] = df[i][j](res);
+//			}
+//			mat[i][n] = -(f_[i](res));
+//		}
+//		gayss(mat, n, n + 1);
+//		for (int i = 0; i < n; i++)
+//		{
+//			dx[i] = mat[i][n];
+//		}
+//		for (int i = 0; i < n; i++)
+//		{
+//			res[i] += dx[i];
+//		}
+//		for (int i = 0; i < n; i++)
+//		{
+//			xmax = (fabs(dx[i]) > xmax) ? fabs(dx[i]) : xmax;
+//		}
+//	} while (fabs(xmax) > eps);
+//	//
+////double f1(double* x)
+////{
+////    return x[0] * x[0] + 2 * log10(x[1]) - 1;
+////}
+////double f2(double *x)
+////{
+////    return x[0] * x[0] - 3 * x[0] * x[1] + 3;
+////}
+////double df1(double* x)
+////{
+////    return 2 * x[0];
+////}
+////double df2(double* x)
+////{
+////    return 2 / (x[1] * log(10));
+////}
+////double df3(double* x)
+////{
+////    return 2 * x[0] - 3 * x[1];
+////}
+////double df4(double* x)
+////{
+////    return -3 * x[0];
+////}
+//	/* f** df = new f * [n];
+//	for (int i = 0; i < n; i++)
+//	{
+//		df[i] = new f[n];
+//	}
+//	df[0][0] = df1;
+//	df[0][1] = df2;
+//	df[1][0] = df3;
+//	df[1][1] = df4;
+//	f* F = new f[n];
+//	F[0] = f1;
+//	F[1] = f2;
+//	double* res = new double[n];
+//	res[0] = 0.3;
+//	res[1] = 3;
+//	newton_sis(F, df, n, res);
+//	for (int i = 0; i < n; i++)
+//	{
+//		cout << res[i] << "   ";
+//	}
+//	res[0] = 1;
+//	res[1] = 3;
+//	newton_sis(F, df, n, res);
+//	for (int i = 0; i < n; i++)
+//	{
+//		cout << res[i] << "   ";
+//	}*/
 //}
-//double df1(double* x)
-//{
-//    return 2 * x[0];
-//}
-//double df2(double* x)
-//{
-//    return 2 / (x[1] * log(10));
-//}
-//double df3(double* x)
-//{
-//    return 2 * x[0] - 3 * x[1];
-//}
-//double df4(double* x)
-//{
-//    return -3 * x[0];
-//}
-	/* f** df = new f * [n];
-	for (int i = 0; i < n; i++)
-	{
-		df[i] = new f[n];
-	}
-	df[0][0] = df1;
-	df[0][1] = df2;
-	df[1][0] = df3;
-	df[1][1] = df4;
-	f* F = new f[n];
-	F[0] = f1;
-	F[1] = f2;
-	double* res = new double[n];
-	res[0] = 0.3;
-	res[1] = 3;
-	newton_sis(F, df, n, res);
-	for (int i = 0; i < n; i++)
-	{
-		cout << res[i] << "   ";
-	}
-	res[0] = 1;
-	res[1] = 3;
-	newton_sis(F, df, n, res);
-	for (int i = 0; i < n; i++)
-	{
-		cout << res[i] << "   ";
-	}*/
-}
 void m_Seidel(double** mat, double* b, int n,double *res)//mat- матрица коэффициентов,b- вектор столбец свободных членов,res - первое приближение,в нЄм же вернЄтс€ и результат
 {
 	double* res1 = new double[n];
