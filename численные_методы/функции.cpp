@@ -1,7 +1,7 @@
 #include "функции.h"
 double** traspose(double** mat, int n, int m)
 {
-	double** arr = new double * [n];
+	double** arr = new double* [n];
 	for (int i = 0; i < n; i++)
 	{
 		arr[i] = new double[m];
@@ -32,7 +32,7 @@ void obr(double** mat, int n)
 	double** arr = new double* [n];
 	for (int i = 0; i < n; i++)
 	{
-		arr[i] = new double [2 * n];
+		arr[i] = new double[2 * n];
 		for (int j = 0; j < n; j++)
 		{
 			arr[i][j] = mat[i][j];
@@ -93,10 +93,10 @@ void obr(double** mat, int n)
 }
 double L(double* X, int n, double x, int i)//вспомогательная функция к функции Лапласа
 {
-	double res=1;
+	double res = 1;
 	for (int j = 0; j < n; j++)
 	{
-		if (j!= i)
+		if (j != i)
 		{
 			res *= (x - X[j]);
 		}
@@ -107,7 +107,7 @@ double L(double* X, int n, double x, int i)//вспомогательная функция к функции Л
 	}
 	return res;
 }
-double l(double *X, int n, int i)//Вспомогательная функция к функции Лапласа
+double l(double* X, int n, int i)//Вспомогательная функция к функции Лапласа
 {
 	double res = 1;
 	for (int j = 0; j < n; j++)
@@ -123,7 +123,7 @@ double l(double *X, int n, int i)//Вспомогательная функция к функции Лапласа
 	}
 	return res;
 }
-double inter_laplas(double* X, double* Y,int n, double x)//функция интерполяции методом Лапласа(2 лекция) (вспомогательные к ней L,l)
+double inter_laplas(double* X, double* Y, int n, double x)//функция интерполяции методом Лапласа(2 лекция) (вспомогательные к ней L,l)
 {//идея задать значения независимой переменой и значения функции от этой переменой ,а промежуточные посчитает функция
 	double P = 0;
 	for (int i = 0; i < n; i++)
@@ -142,14 +142,14 @@ double P_(double* X, double* Y, int start, int stop)
 	{
 		return ((P_(X, Y, start + 1, stop) - P_(X, Y, start, stop - 1)) / (X[stop] - X[start]));
 	}
-	else if(stop - start == 0)
+	else if (stop - start == 0)
 	{
 		return 1;
 	}
 }
 double P(double* X, double* Y, int n)
 {
-	double pr ;
+	double pr;
 	double res = 0;
 	for (int i = 0; i <= n; i++)
 	{
@@ -165,7 +165,7 @@ double P(double* X, double* Y, int n)
 	}
 	return res;
 }
-double Pr(double* X, int k,double x)
+double Pr(double* X, int k, double x)
 {
 	double res = 1;
 	for (int i = 0; i < k; i++)
@@ -179,42 +179,42 @@ double inter_Newton(double* X, double* Y, int n, double x)
 	double res = Y[0];
 	for (int i = 1; i < n; i++)
 	{
-		res +=  (P(X, Y,i) * Pr(X, i, x));
+		res += (P(X, Y, i) * Pr(X, i, x));
 	}
 	return res;
 }
 double error_rate(double y, double Y)//Y - точное значение,y- приближёное значение
 {
-	return abs(Y-y) / abs(Y)*100;
+	return abs(Y - y) / abs(Y) * 100;
 }
 void coef(double* Y, double h, int N, double* b_coef, double* c, double* d)
 {
 	c[0] = 0;
 	double* a = new double[N];
 	double* b = new double[N];
-	double F,A,B,C,z;
+	double F, A, B, C, z;
 	a[0] = 0;
 	b[0] = 0;
-	for (int i = 1; i < N-1; i++)
+	for (int i = 1; i < N - 1; i++)
 	{
 		A = h;
-		C = 2.*2*h;
+		C = 2. * 2 * h;
 		B = h;
 		F = 6. * ((Y[i + 1] - Y[i]) / h - (Y[i] - Y[i - 1]) / h);
 		z = (A * a[i - 1] + C);
 		a[i] = -B / z;
 		b[i] = (F - A * b[i - 1]) / z;
 	}
-	c[N-1] = (F - A * b[N - 2]) / (C + A * a[N - 2]);
-	for (int i = N-2; i > 0; i--)
+	c[N - 1] = (F - A * b[N - 2]) / (C + A * a[N - 2]);
+	for (int i = N - 2; i > 0; i--)
 	{
-		c[i] = a[i ] * c[i + 1] - b[i];
+		c[i] = a[i] * c[i + 1] - b[i];
 	}
 	delete[]a;
 	delete[]b;
 	for (int i = N - 1; i > 0; --i)
 	{
-		d[i] = (c[i] - c[i-1]) / h;
+		d[i] = (c[i] - c[i - 1]) / h;
 		b_coef[i] = h * (2. * c[i] - c[i - 1]) / 6. + (Y[i] - Y[i - 1]) / h;
 	}
 
@@ -233,7 +233,7 @@ int search_max(double** arr, int n, int j)
 	}
 	return i_max;
 }
-void swap_row(double** arr, int i, int j,int n)
+void swap_row(double** arr, int i, int j, int n)
 {
 	double* a = new double[n];
 	for (int k = 0; k < n; k++)
@@ -334,13 +334,13 @@ double power(int n, double x)
 	}
 	return res;
 }
-void MNK(double* X, double* Y, double* res, int n,int m)
+void MNK(double* X, double* Y, double* res, int n, int m)
 {//аппраксимация полиномом любой степени методом наимньших квадратов.
 	double** mat = new double* [n];
 	for (int i = 0; i < n; i++)
 	{
 		mat[i] = new double[n + 1];
-		for (int j = 0; j < n + 1 ; j++)
+		for (int j = 0; j < n + 1; j++)
 		{
 			mat[i][j] = 0.;
 		}
@@ -351,7 +351,7 @@ void MNK(double* X, double* Y, double* res, int n,int m)
 		{
 			for (int k = 0; k < m; k++)
 			{
-				mat[i][j] += power(j+i , X[k]);
+				mat[i][j] += power(j + i, X[k]);
 			}
 		}
 	}
@@ -394,12 +394,12 @@ double cubic_spline(double* X, double* Y, int n, double x)
 			else
 				i = k;
 		}
-		s = j-1;
+		s = j - 1;
 	}
 	double dx = (x - X[s]);
-	return (Y[s] + (b[s] + (c[s] / 2. + d[s] * dx / 6.) * dx) * dx)/2;
+	return (Y[s] + (b[s] + (c[s] / 2. + d[s] * dx / 6.) * dx) * dx) / 2;
 }
-double* progonka(double** mat, int n )//где размер матрицы n на n+1
+double* progonka(double** mat, int n)//где размер матрицы n на n+1
 {// !этот метод применяется только к 3-х диоганальым матрицам!
 	double* a = new double[n];
 	double* b = new double[n];
@@ -408,7 +408,7 @@ double* progonka(double** mat, int n )//где размер матрицы n на n+1
 	A = 0;
 	a[0] = 0;
 	b[0] = 0;
-	for (int i = 0; i < n-1; i++)
+	for (int i = 0; i < n - 1; i++)
 	{
 		if (i != 0)
 		{
@@ -421,7 +421,7 @@ double* progonka(double** mat, int n )//где размер матрицы n на n+1
 		b[i + 1] = (F - A * b[i]) / (A * a[i] + B);
 	}
 	res[n - 1] = (mat[n - 1][n] - mat[n - 1][n - 2] * b[n - 1]) / (mat[n - 1][n - 1] + mat[n - 1][n - 2] * a[n - 1]);
-	for (int i = n-2; i >= 0; i--)
+	for (int i = n - 2; i >= 0; i--)
 	{
 		res[i] = a[i + 1] * res[i + 1] + b[i + 1];
 	}
@@ -485,7 +485,7 @@ double m_newtona(double (*fx)(double), double (*dfx)(double), double x0) {
 }
 double m_pros_it(double (*f)(double), double a, double b)
 {
-	double x_k, x_k1=0;
+	double x_k, x_k1 = 0;
 	double eps = 0.0001;
 	x_k = b;
 	while (abs(x_k - x_k1) > eps) {
@@ -494,7 +494,7 @@ double m_pros_it(double (*f)(double), double a, double b)
 	};
 	return x_k;
 }
-bool LU(double** mat, int n, int m,double **L,double **U)
+bool LU(double** mat, int n, int m, double** L, double** U)
 {
 	double eps = 0.00001;
 	double** tmp = new double* [n];
@@ -507,7 +507,7 @@ bool LU(double** mat, int n, int m,double **L,double **U)
 		}
 		for (int j = m; j < 2 * m; j++)
 		{
-			if (i == j-m)
+			if (i == j - m)
 			{
 				tmp[i][j] = 1;
 			}
@@ -518,7 +518,7 @@ bool LU(double** mat, int n, int m,double **L,double **U)
 		}
 	}
 	double tmp_;
-	for (int k = 0; k < n-1; k++)
+	for (int k = 0; k < n - 1; k++)
 	{
 		epsilon(tmp, n, 2 * n, eps);
 		if (abs(tmp[k][k]) < eps)
@@ -545,7 +545,7 @@ bool LU(double** mat, int n, int m,double **L,double **U)
 		}
 		for (int j = m; j < 2 * m; j++)
 		{
-			L[i][j-m] = tmp[i][j];
+			L[i][j - m] = tmp[i][j];
 		}
 	}
 	obr(L, n);
@@ -574,7 +574,7 @@ double** pr_mat(double** a, double** b, int n, int m)
 	}
 	return res;
 }
-void pr_mat_2(double** a, double** b, int n, int m,double**res1)
+void pr_mat_2(double** a, double** b, int n, int m, double** res1)
 {
 	double** res = new double* [n];
 	for (int j = 0; j < n; j++)
@@ -608,7 +608,7 @@ bool LU_clay(double** mat, double* b, double* res, int n)// решение СЛАУ происхо
 	double** L = new double* [n];
 	double** U = new double* [n];
 	double* tmp = new double[n];
-	double tmp_=0;
+	double tmp_ = 0;
 	for (int i = 0; i < n; i++)
 	{
 		L[i] = new double[n];
@@ -625,7 +625,7 @@ bool LU_clay(double** mat, double* b, double* res, int n)// решение СЛАУ происхо
 			}
 			tmp[i] = (b[i] - tmp_) / L[i][i];
 		}
-		for (int i = n-1; i >= 0; i--)//обратный ход метода Гаусса
+		for (int i = n - 1; i >= 0; i--)//обратный ход метода Гаусса
 		{
 			tmp_ = 0;
 			for (int j = i + 1; j < n; j++)
@@ -812,7 +812,7 @@ bool LU_clay(double** mat, double* b, double* res, int n)// решение СЛАУ происхо
 //		cout << res[i] << "   ";
 //	}*/
 //}
-void m_Seidel(double** mat, double* b, int n,double *res)//mat- матрица коэффициентов,b- вектор столбец свободных членов,res - первое приближение,в нём же вернётся и результат
+void m_Seidel(double** mat, double* b, int n, double* res)//mat- матрица коэффициентов,b- вектор столбец свободных членов,res - первое приближение,в нём же вернётся и результат
 {
 	double* res1 = new double[n];
 	double** C = new double* [n];
@@ -830,7 +830,7 @@ void m_Seidel(double** mat, double* b, int n,double *res)//mat- матрица коэффици
 			if (i == j) C[i][j] = 0;
 			else
 			{
-				C[i][j] = -1.*mat[i][j] / mat[i][i];
+				C[i][j] = -1. * mat[i][j] / mat[i][i];
 			}
 		}
 	}
@@ -1017,11 +1017,11 @@ void pvr(double** mat, double* b, int n, double* res, double omega)
 		{
 			for (int j = 0; j < i; j++)
 			{
-				res[i] += omega*C[i][j] * res[j];
+				res[i] += omega * C[i][j] * res[j];
 			}
 			for (int j = i; j < n; j++)
 			{
-				res[i] += omega*C[i][j] * res1[j];
+				res[i] += omega * C[i][j] * res1[j];
 			}
 			res[i] += omega * d[i];
 		}
@@ -1033,7 +1033,7 @@ void pvr(double** mat, double* b, int n, double* res, double omega)
 		{
 			res1[i] = res[i];
 		}
-		
+
 	} while (dx > eps);
 
 	/*int n = 4;
@@ -1081,7 +1081,7 @@ void pvr(double** mat, double* b, int n, double* res, double omega)
 	*/
 	// 
 }
-void m_rot(double** mat1, int n, double** res1,double* lambda)
+void m_rot(double** mat1, int n, double** res1, double* lambda)
 {
 	double** mat = new double* [n];
 	double** res = new double* [n];
@@ -1105,7 +1105,7 @@ void m_rot(double** mat1, int n, double** res1,double* lambda)
 			}
 		}
 	}
-	double max=1;
+	double max = 1;
 	int i_max = 0, j_max = 0;
 	double phi;
 	while (max > eps) {
@@ -1141,7 +1141,7 @@ void m_rot(double** mat1, int n, double** res1,double* lambda)
 		H[i_max][j_max] = -sin(phi);
 		H[j_max][i_max] = sin(phi);
 		H[j_max][j_max] = cos(phi);
-		mat = pr_mat(traspose(H, n,n), mat, n,n);
+		mat = pr_mat(traspose(H, n, n), mat, n, n);
 		mat = pr_mat(mat, H, n, n);
 		res = pr_mat(res, H, n, n);
 	}
@@ -1183,11 +1183,11 @@ void m_rot(double** mat1, int n, double** res1,double* lambda)
 	//	cout << endl;
 	//}
 }
-double S_pr(double(*f)(double), double a, double b,double h)
+double S_pr(double(*f)(double), double a, double b, double h)
 {
 	int n = (b - a) / h;
 	double sum = 0;
-	for (double i = a ; i < b; i += h)
+	for (double i = a; i < b; i += h)
 	{
 		sum += f((2 * i + h) / 2) * h;
 	}
@@ -1213,7 +1213,7 @@ double S_Simpson(double(*f)(double), double a, double b, double h)
 	}
 	return sum;
 }
-double scal_pr(double* A, double* B,int n)
+double scal_pr(double* A, double* B, int n)
 {
 	double res = 0;
 	for (int i = 0; i < n; i++)
@@ -1222,7 +1222,7 @@ double scal_pr(double* A, double* B,int n)
 	}
 	return res;
 }
-void ort_gramm_shimidt(double** mat,double**res, int n)
+void ort_gramm_shimidt(double** mat, double** res, int n)
 {
 	double* b = new double[n];
 	double** mat1 = new double* [n];
@@ -1230,45 +1230,45 @@ void ort_gramm_shimidt(double** mat,double**res, int n)
 	{
 		mat1[i] = new double[n];
 	}
-	double* c = new double [n];
+	double* c = new double[n];
 	double sum = 0;
 	double* m = new double[n];
+	for (int j = 0; j < n; j++)
+	{
+		for (int k = 0; k < n; k++)
+		{
+			b[k] = mat[k][j];
+		}
+		for (int k = 0; k < j; k++)
+		{
+			for (int i = 0; i < n; i++)
+			{
+				m[i] = mat1[i][k];
+			}
+			c[k] = scal_pr(b, m, n) / scal_pr(m, m, n);
+		}
+		for (int k = 0; k < n; k++)
+		{
+			sum = 0;
+			for (int m = 0; m < j; m++)
+			{
+				sum += c[m] * mat1[k][m];
+			}
+			b[k] -= sum;
+			sum = 0;
+		}
+		for (int k = 0; k < n; k++)
+		{
+			mat1[k][j] = b[k];
+		}
+	}
+	for (int i = 0; i < n; i++)
+	{
 		for (int j = 0; j < n; j++)
 		{
-			for (int k = 0; k < n; k++)
-			{
-				b[k] = mat[k][j];
-			}
-			for (int k = 0; k < j; k++)
-			{
-				for (int i = 0; i < n; i++)
-				{
-					m[i] = mat1[i][k];
-				}
-				c[k] = scal_pr(b, m, n) / scal_pr(m, m, n);
-			}
-			for (int k = 0; k < n; k++)
-			{
-				sum = 0;
-				for (int m = 0; m < j; m++)
-				{
-					sum += c[m] * mat1[k][m];
-				}
-				b[k] -= sum;
-				sum = 0;
-			}
-			for (int k = 0; k < n; k++)
-			{
-				mat1[k][j] = b[k];
-			}
+			res[i][j] = mat1[i][j];
 		}
-		for (int i = 0; i < n; i++)
-		{
-			for (int j = 0; j < n; j++)
-			{
-				res[i][j] = mat1[i][j];
-			}
-		}
+	}
 }
 void norm(double** mat, double** res, int n)
 {
@@ -1335,7 +1335,7 @@ void QR(double** mat, int n, double** Q, double** R)
 		cout << endl;
 	}*/
 }
-void m_QR(double** mat, int n,double*lambda,double**sob_vec)
+void m_QR(double** mat, int n, double* lambda, double** sob_vec)
 {
 	double** R = new double* [n];
 	double** Q = new double* [n];
@@ -1367,7 +1367,7 @@ void m_QR(double** mat, int n,double*lambda,double**sob_vec)
 		lambda[i] = mat[i][i];
 	}
 }
-double R(int n, int m, double(*f)(double),double a,double b)
+double R(int n, int m, double(*f)(double), double a, double b)
 {
 	double sum = 0;
 	double h;
@@ -1392,8 +1392,8 @@ double R(int n, int m, double(*f)(double),double a,double b)
 double Romberg(double(*f)(double), double a, double b)
 {
 	double eps = 0.000001;
-	double d ,res1;
-	double res= R(0, 0, f, a, b);
+	double d, res1;
+	double res = R(0, 0, f, a, b);
 	int i = 1;
 	do {
 		res1 = res;
@@ -1405,7 +1405,7 @@ double Romberg(double(*f)(double), double a, double b)
 }
 double max_lambda(double** mat, int n)
 {
-	double** res = new double*[n];
+	double** res = new double* [n];
 	for (int i = 0; i < n; i++)
 	{
 		res[i] = new double[n];
@@ -1456,4 +1456,22 @@ double min_lambda(double** mat, int n)
 		}
 	}
 	return max;
+}
+double diff_l(double* x, double* y, int i)
+{
+	double h = x[i] - x[i - 1];
+	double dy = y[i] - y[i - 1];
+	return dy / h;
+}
+double diff_r(double* x, double* y, int i)
+{
+	double h = x[i + 1] - x[i];
+	double dy = y[i + 1] - y[i];
+	return dy / h;
+}
+double diff_c(double* x, double* y, int i)
+{
+	double h = x[i + 1] - x[i - 1];
+	double dy = y[i + 1] - y[i - 1];
+	return dy / h;
 }

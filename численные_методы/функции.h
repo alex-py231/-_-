@@ -2,13 +2,16 @@
 #include<iostream>
 #include<cmath>
 using namespace std;
-//typedef double (*f)(double*X);
+typedef double (*f)(double* X);
+double diff_l(double* x, double* y, int i);
+double diff_r(double* x, double* y, int i);
+double diff_c(double* x, double* y, int i);
 double inter_Newton(double* X, double* Y, int n, double x);
 double inter_laplas(double* X, double* Y, int n, double x);
 double error_rate(double Y, double y);
 double cubic_spline(double* X, double* Y, int n, double x);
-void MNK(double* X, double* Y, double* res, int n,int m);
-double*progonka(double** mat, int n);
+void MNK(double* X, double* Y, double* res, int n, int m);
+double* progonka(double** mat, int n);
 double m_newtona(double (*fx)(double), double (*dfx)(double), double x0);
 double m_pros_it(double (*f)(double), double a, double b);
 double m_hord(double (*f)(double), double a, double b);
